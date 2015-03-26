@@ -54,13 +54,12 @@ define Build/Configure/ruby-eventmachine
 	);
 endef
 
-#define Build/Compile/eventmachine
-#	$(MAKE_VARS) \
-#	$(MAKE) -C $(PKG_BUILD_DIR)/ext \
-#		$(MAKE_FLAGS) \
-#		$(1);
-#	$(CP) $(PKG_BUILD_DIR)/ext/*.so $(PKG_BUILD_DIR)/lib/
-#endef
+define Build/Compile/ruby-eventmachine
+	+$(MAKE_VARS) \
+	$(MAKE) $(PKG_JOBS) -C $(PKG_BUILD_DIR)/ext \
+		$(MAKE_FLAGS) \
+		$(1);
+endef
 
 define Build/Configure/ruby-fastfilereader
 	(cd $(PKG_BUILD_DIR)/ext/fastfilereader; \
@@ -68,13 +67,12 @@ define Build/Configure/ruby-fastfilereader
 	);
 endef
 
-#define Build/Compile/fastfilereader
-#	$(MAKE_VARS) \
-#	$(MAKE) -C $(PKG_BUILD_DIR)/ext/fastfilereader \
-#		$(MAKE_FLAGS) \
-#		$(1);
-#	$(CP) $(PKG_BUILD_DIR)/ext/fastfilereader/*.so $(PKG_BUILD_DIR)/lib/
-#endef
+define Build/Compile/ruby-fastfilereader
+	+$(MAKE_VARS) \
+	$(MAKE) $(PKG_JOBS) -C $(PKG_BUILD_DIR)/ext/fastfilereader \
+		$(MAKE_FLAGS) \
+		$(1);
+endef
 
 #define Build/Configure
 #	$(call Build/Configure/eventmachine)
@@ -117,4 +115,4 @@ endef
 
 $(eval $(call BuildPackage,ruby-eventmachine))
 $(eval $(call BuildPackage,ruby-fastfilereader))
-
+$(eval $(call HostBuild))
