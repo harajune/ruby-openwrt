@@ -22,12 +22,29 @@ include $(INCLUDE_DIR)/nls.mk
 
 include $(INCLUDE_DIR)/package.mk
 
-define Package/ruby-eventmachine
+define Package/ruby-eventmachine/Default
   SUBMENU:=Ruby
   SECTION:=lang
   CATEGORY:=Languages
-  DEPENDS:=ruby +libstdcpp +libc +libgcc
   TITLE:=Ruby eventmachine gem
+endef
+
+define Package/ruby-eventmachine
+  $(call Package/ruby-eventmachine/Default)
+  DEPENDS:=+eventmachine +fastfilereader
+  TITLE:=(event machine)
+endef
+
+define Package/eventmachine
+  $(call Package/ruby-eventmachine/Default)
+  DEPENDS:=ruby +libstdcpp +libc +libgcc
+  TITLE:=(event machine binary)
+endef
+
+define Package/fastfilereader
+  $(call Package/ruby-eventmachine/Default)
+  DEPENDS:=ruby +libstdcpp +libc +libgcc
+  TITLE:=(event machine fastfilereader)
 endef
 
 RUBY:= \
@@ -65,15 +82,15 @@ endef
 #	$(CP) $(PKG_BUILD_DIR)/ext/fastfilereader/*.so $(PKG_BUILD_DIR)/lib/
 #endef
 
-define Build/Configure
-	$(call Build/Configure/eventmachine)
-	$(call Build/Configure/fastfilereader)
-endef
-
-define Build/Compile
-	$(call Build/Compile/fastfilereader)
-	$(call Build/Compile/eventmachine)
-endef
+#define Build/Configure
+#	$(call Build/Configure/eventmachine)
+#	$(call Build/Configure/fastfilereader)
+#endef
+#
+#define Build/Compile
+#	$(call Build/Compile/fastfilereader)
+#	$(call Build/Compile/eventmachine)
+#endef
 
 $(eval $(call BuildPackage,fastfilereader))
 $(eval $(call BuildPackage,eventmachine))
@@ -86,3 +103,6 @@ define Package/ruby-eventmachine/install
 endef
 
 $(eval $(call BuildPackage,ruby-eventmachine))
+$(eval $(call BuildPackage,fastfilereader))
+$(eval $(call BuildPackage,eventmachine))
+
