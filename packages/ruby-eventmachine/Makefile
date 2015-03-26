@@ -43,13 +43,13 @@ define Build/Configure/eventmachine
 	);
 endef
 
-define Build/Compile/eventmachine
-	$(MAKE_VARS) \
-	$(MAKE) -C $(PKG_BUILD_DIR)/ext \
-		$(MAKE_FLAGS) \
-		$(1);
-	$(CP) $(PKG_BUILD_DIR)/ext/*.so $(PKG_BUILD_DIR)/lib/
-endef
+#define Build/Compile/eventmachine
+#	$(MAKE_VARS) \
+#	$(MAKE) -C $(PKG_BUILD_DIR)/ext \
+#		$(MAKE_FLAGS) \
+#		$(1);
+#	$(CP) $(PKG_BUILD_DIR)/ext/*.so $(PKG_BUILD_DIR)/lib/
+#endef
 
 define Build/Configure/fastfilereader
 	(cd $(PKG_BUILD_DIR)/ext/fastfilereader; \
@@ -57,13 +57,13 @@ define Build/Configure/fastfilereader
 	);
 endef
 
-define Build/Compile/fastfilereader
-	$(MAKE_VARS) \
-	$(MAKE) -C $(PKG_BUILD_DIR)/ext/fastfilereader \
-		$(MAKE_FLAGS) \
-		$(1);
-	$(CP) $(PKG_BUILD_DIR)/ext/fastfilereader/*.so $(PKG_BUILD_DIR)/lib/
-endef
+#define Build/Compile/fastfilereader
+#	$(MAKE_VARS) \
+#	$(MAKE) -C $(PKG_BUILD_DIR)/ext/fastfilereader \
+#		$(MAKE_FLAGS) \
+#		$(1);
+#	$(CP) $(PKG_BUILD_DIR)/ext/fastfilereader/*.so $(PKG_BUILD_DIR)/lib/
+#endef
 
 define Build/Configure
 	$(call Build/Configure/eventmachine)
@@ -74,6 +74,9 @@ define Build/Compile
 	$(call Build/Compile/fastfilereader)
 	$(call Build/Compile/eventmachine)
 endef
+
+$(eval $(call BuildPackage,fastfilereader))
+$(eval $(call BuildPackage,eventmachine))
 
 define Package/ruby-eventmachine/install
 	$(INSTALL_DIR) $(1)/usr/lib/ruby/site_ruby/1.9/mips-linux
