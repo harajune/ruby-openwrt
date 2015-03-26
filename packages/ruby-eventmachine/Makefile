@@ -10,12 +10,15 @@ PKG_REV:=master
 PKG_VERSION:=$(PKG_REV)
 
 PKG_SOURCE:=$(PKG_NAME).tar.gz
-PKG_SOURCE_URL:=git://github.com/awilliams/eventmachine.git
+PKG_SOURCE_URL:=git://github.com/eventmachine/eventmachine.git
 PKG_SOURCE_VERSION:=$(PKG_REV)
 PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
 PKG_SOURCE_PROTO:=git
 
+PKG_BUILD_DEPS:=ruby/host
+
 include $(INCLUDE_DIR)/package.mk
+include $(INCLUDE_DIR)/host-build.mk
 
 define Package/ruby-eventmachine
   SUBMENU:=Ruby
@@ -39,8 +42,8 @@ define Build/Configure/eventmachine
 endef
 
 define Build/Compile/eventmachine
-	$(MAKE_VARS) \
-	$(MAKE) -C $(PKG_BUILD_DIR)/ext \
+	+$(MAKE_VARS) \
+	$(MAKE) $(PKG_JOBS) -C $(PKG_BUILD_DIR)/ext \
 		$(MAKE_FLAGS) \
 		$(1);
 	$(CP) $(PKG_BUILD_DIR)/ext/*.so $(PKG_BUILD_DIR)/lib/
@@ -53,8 +56,8 @@ define Build/Configure/fastfilereader
 endef
 
 define Build/Compile/fastfilereader
-	$(MAKE_VARS) \
-	$(MAKE) -C $(PKG_BUILD_DIR)/ext/fastfilereader \
+	+$(MAKE_VARS) \
+	$(MAKE) $(PKG_JOBS) -C $(PKG_BUILD_DIR)/ext/fastfilereader \
 		$(MAKE_FLAGS) \
 		$(1);
 	$(CP) $(PKG_BUILD_DIR)/ext/fastfilereader/*.so $(PKG_BUILD_DIR)/lib/
