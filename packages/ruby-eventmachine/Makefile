@@ -22,23 +22,12 @@ include $(INCLUDE_DIR)/nls.mk
 
 include $(INCLUDE_DIR)/package.mk
 
-define Package/ruby-eventmachine/Default
+define Package/ruby-eventmachine
   SUBMENU:=Ruby
   SECTION:=lang
   CATEGORY:=Languages
   TITLE:=Ruby eventmachine gem
-endef
-
-define Package/ruby-eventmachine
-  $(call Package/ruby-eventmachine/Default)
-  DEPENDS:=ruby +libstdcpp +libc +libgcc +ruby-fastfilereader
-  TITLE:=(event machine)
-endef
-
-define Package/ruby-fastfilereader
-  $(call Package/ruby-eventmachine/Default)
-  DEPENDS:=ruby +libstdcpp +libc +libgcc
-  TITLE:=(event machine fastfilereader)
+  DEPENDS:=ruby +libstdcpp +libc +libgc
 endef
 
 RUBY:= \
@@ -74,36 +63,14 @@ define Build/ruby-fastfilereader/Compile
 		$(1);
 endef
 
-#define Build/Configure
-#	$(call Build/Configure/eventmachine)
-#	$(call Build/Configure/fastfilereader)
-#endef
-#
-#define Build/Compile
-#	$(call Build/Compile/fastfilereader)
-#	$(call Build/Compile/eventmachine)
-#endef
-
-#define Package/ruby-eventmachine/install
-#	$(INSTALL_DIR) $(1)/usr/lib/ruby/site_ruby/1.9/mips-linux
-#	$(CP) $(PKG_BUILD_DIR)/lib/eventmachine.rb $(1)/usr/lib/ruby/site_ruby/1.9/
-#	$(CP) $(PKG_BUILD_DIR)/lib/em $(1)/usr/lib/ruby/site_ruby/1.9/
-#	$(CP) $(PKG_BUILD_DIR)/lib/*.so $(1)/usr/lib/ruby/site_ruby/1.9/mips-linux
-#endef
-
-
-define Package/ruby-eventmachine/install
-	$(INSTALL_DIR) $(1)/usr/lib/ruby/$(PKG_LIBVER)
-	$(CP) $(PKG_INSTALL_DIR)/usr/lib/ruby/eventmachine.rb $(1)/usr/lib/ruby/$(PKG_LIBVER)/
-	$(CP) $(PKG_INSTALL_DIR)/usr/lib/ruby/em $(1)/usr/lib/ruby/$(PKG_LIBVER)/
-	$(CP) $(PKG_INSTALL_DIR)/usr/lib/ruby/*.so $(1)/usr/lib/ruby/$(PKG_LIBVER)/
+define Build/Configure
+	$(call Build/ruby-fastfilereader/Configure)
+	$(call Build/ruby-eventmachine/Configure)
 endef
 
-define Package/ruby-fastfilereader/install
-	$(INSTALL_DIR) $(1)/usr/lib/ruby/$(PKG_LIBVER)
-	$(CP) $(PKG_INSTALL_DIR)/usr/lib/ruby/eventmachine.rb $(1)/usr/lib/ruby/$(PKG_LIBVER)/
-	$(CP) $(PKG_INSTALL_DIR)/usr/lib/ruby/em $(1)/usr/lib/ruby/$(PKG_LIBVER)/
-	$(CP) $(PKG_INSTALL_DIR)/usr/lib/ruby/*.so $(1)/usr/lib/ruby/$(PKG_LIBVER)/
+define Build/Compile
+	$(call Build/ruby-fastfilereader/Compile)
+	$(call Build/ruby-eventmachine/Compile)
 endef
 
 #define Package/ruby-eventmachine/install
@@ -112,7 +79,14 @@ endef
 #	$(CP) $(PKG_BUILD_DIR)/lib/em $(1)/usr/lib/ruby/site_ruby/1.9/
 #	$(CP) $(PKG_BUILD_DIR)/lib/*.so $(1)/usr/lib/ruby/site_ruby/1.9/mips-linux
 #endef
+
+
+define Package/install
+	$(INSTALL_DIR) $(1)/usr/lib/ruby/$(PKG_LIBVER)
+	$(CP) $(PKG_INSTALL_DIR)/usr/lib/ruby/eventmachine.rb $(1)/usr/lib/ruby/$(PKG_LIBVER)/
+	$(CP) $(PKG_INSTALL_DIR)/usr/lib/ruby/em $(1)/usr/lib/ruby/$(PKG_LIBVER)/
+	$(CP) $(PKG_INSTALL_DIR)/usr/lib/ruby/*.so $(1)/usr/lib/ruby/$(PKG_LIBVER)/
+endef
 
 $(eval $(call BuildPackage,ruby-eventmachine))
-$(eval $(call BuildPackage,ruby-fastfilereader))
 $(eval $(call HostBuild))
