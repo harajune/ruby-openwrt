@@ -37,6 +37,7 @@ endef
 
 define Build/Configure/eventmachine
 	(cd $(PKG_BUILD_DIR)/ext; \
+		CONFIGURE_ARGS="--with-cflags='-m32' --with-ldflags='-m32'" \
 		$(RUBY) extconf.rb; \
 	);
 endef
@@ -51,6 +52,7 @@ endef
 
 define Build/Configure/fastfilereader
 	(cd $(PKG_BUILD_DIR)/ext/fastfilereader; \
+		CONFIGURE_ARGS="--with-cflags='-m32' --with-ldflags='-m32'" \
 		$(RUBY) extconf.rb; \
 	);
 endef
