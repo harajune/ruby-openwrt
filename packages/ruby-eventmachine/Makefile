@@ -15,6 +15,11 @@ PKG_SOURCE_VERSION:=$(PKG_REV)
 PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
 PKG_SOURCE_PROTO:=git
 
+PKG_BUILD_DEPENDS:=ruby/host
+
+include $(INCLUDE_DIR)/host-build.mk
+include $(INCLUDE_DIR)/nls.mk
+
 include $(INCLUDE_DIR)/package.mk
 
 define Package/ruby-eventmachine
@@ -34,7 +39,6 @@ endef
 
 define Build/Configure/eventmachine
 	(cd $(PKG_BUILD_DIR)/ext; \
-		CROSS_COMPILING=1 \
 		$(RUBY) extconf.rb; \
 	);
 endef
@@ -49,7 +53,6 @@ endef
 
 define Build/Configure/fastfilereader
 	(cd $(PKG_BUILD_DIR)/ext/fastfilereader; \
-		CROSS_COMPILING=1 \
 		$(RUBY) extconf.rb; \
 	);
 endef
