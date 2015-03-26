@@ -48,26 +48,26 @@ define Package/ruby-eventmachine/description
  This package contains the ruby eventmachine gem.
 endef
 
-define Build/Configure/ruby-eventmachine
+define Build/ruby-eventmachine/Configure
 	(cd $(PKG_BUILD_DIR)/ext; \
 		$(RUBY) extconf.rb; \
 	);
 endef
 
-define Build/Compile/ruby-eventmachine
+define Build/ruby-eventmachine/Compile
 	+$(MAKE_VARS) \
 	$(MAKE) $(PKG_JOBS) -C $(PKG_BUILD_DIR)/ext \
 		$(MAKE_FLAGS) \
 		$(1);
 endef
 
-define Build/Configure/ruby-fastfilereader
+define Build/ruby-fastfilereader/Configure
 	(cd $(PKG_BUILD_DIR)/ext/fastfilereader; \
 		$(RUBY) extconf.rb; \
 	);
 endef
 
-define Build/Compile/ruby-fastfilereader
+define Build/ruby-fastfilereader/Compile
 	+$(MAKE_VARS) \
 	$(MAKE) $(PKG_JOBS) -C $(PKG_BUILD_DIR)/ext/fastfilereader \
 		$(MAKE_FLAGS) \
