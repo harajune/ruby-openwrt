@@ -24,7 +24,7 @@ define Package/ruby-eventmachine
   SUBMENU:=Ruby
   SECTION:=lang
   CATEGORY:=Languages
-  DEPENDS:=ruby +libstdcpp +libc +libgcc
+  DEPENDS:=ruby +libstdcpp +libc +libgcc +libopenssl
   TITLE:=Ruby eventmachine gem
 endef
 
@@ -80,4 +80,4 @@ define Package/ruby-eventmachine/install
 	$(CP) $(PKG_BUILD_DIR)/lib/*.so $(1)/usr/lib/ruby/site_ruby/1.9/mips-linux
 endef
 
-$(eval $(call BuildPackage,ruby-eventmachine))
+$(eval $(call BuildPackage,ruby-eventmachine,+libopenssl))
