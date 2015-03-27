@@ -37,7 +37,6 @@ endef
 
 define Build/Configure/eventmachine
 	(cd $(PKG_BUILD_DIR)/ext; \
-		$(CONFIGURE_VARS) \
 		$(RUBY) extconf.rb; \
 	);
 endef
@@ -52,7 +51,6 @@ endef
 
 define Build/Configure/fastfilereader
 	(cd $(PKG_BUILD_DIR)/ext/fastfilereader; \
-		$(CONFIGURE_VARS) \
 		$(RUBY) extconf.rb; \
 	);
 endef
