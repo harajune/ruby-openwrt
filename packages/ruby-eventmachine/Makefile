@@ -73,6 +73,7 @@ define Build/Compile
 	$(call Build/Compile/eventmachine)
 endef
 
+# change below to fit your architecture. mips or i486
 define Package/ruby-eventmachine/install
 	$(INSTALL_DIR) $(1)/usr/lib/ruby/site_ruby/1.9/mips-linux
 	$(CP) $(PKG_BUILD_DIR)/lib/eventmachine.rb $(1)/usr/lib/ruby/site_ruby/1.9/
